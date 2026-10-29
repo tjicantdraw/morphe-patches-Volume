@@ -94,19 +94,21 @@ val appVolumePatch = bytecodePatch(
         setVolumeMethod.addInstructions(
             0,
             """
-                invoke-static { p0, p1 }, $EXTENSION_CLASS->overrideVolume(Ljava/lang/Object;F)F
+                invoke-static/range { p0 .. p1 }, $EXTENSION_CLASS->overrideVolume(Ljava/lang/Object;F)F
                 move-result p1
             """
         )
 
         // Register each player when it is created, since the app may never call setVolume itself.
         // More than one player can be alive at the same time, such as when crossfading.
-        // addInstructions (not addInstruction) compiles with the method's parameters, so p0 resolves.
+        // The constructor uses many registers, so p0 can be above v15, which plain invoke-static
+        // cannot address. The range form can. addInstructions compiles with the method's
+        // parameters and register count, so p0 resolves to the right register.
         exoPlayerImplClass.methods.filter { it.name == "<init>" }.forEach { constructor ->
             constructor.findInstructionIndicesReversedOrThrow(Opcode.RETURN_VOID).forEach { index ->
                 constructor.addInstructions(
                     index,
-                    "invoke-static { p0 }, $EXTENSION_CLASS->registerPlayer(Ljava/lang/Object;)V"
+                    "invoke-static/range { p0 .. p0 }, $EXTENSION_CLASS->registerPlayer(Ljava/lang/Object;)V"
                 )
             }
         }
