@@ -300,6 +300,8 @@ SABR playback (Spoof video streams turned off)"</string>
     <string name="morphe_music_playback_speed_title">Playback speed</string>
     <string name="morphe_music_playback_speed_summary">Speed used for all tracks. At 100% the app speed is used, such as the podcast playback speed</string>
     <string name="morphe_music_playback_speed_change_pitch_title">Change pitch with speed</string>
+    <string name="morphe_music_app_volume_title">App volume</string>
+    <string name="morphe_music_app_volume_summary">Volume of YouTube Music, independent of the device volume. Applies within a second while a track plays</string>
 
     <!-- interaction.dislikeredirection.disableDislikeRedirectionPatch -->
     <string name="morphe_music_disable_dislike_redirection_title">Disable dislike redirection</string>
