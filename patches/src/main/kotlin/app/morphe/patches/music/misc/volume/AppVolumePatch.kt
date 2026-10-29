@@ -6,7 +6,6 @@
 
 package app.morphe.patches.music.misc.volume
 
-import app.morphe.patcher.extensions.InstructionExtensions.addInstruction
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.instructions
 import app.morphe.patcher.patch.bytecodePatch
@@ -20,6 +19,7 @@ import app.morphe.patches.music.video.information.musicVideoInformationPatch
 import app.morphe.patches.music.video.information.musicVideoTimeHook
 import app.morphe.patches.shared.misc.settings.preference.NonInteractivePreference
 import app.morphe.patches.shared.misc.settings.preference.noTitleUnsortedPreferenceCategory
+import app.morphe.util.findInstructionIndicesReversedOrThrow
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.builder.MutableMethodImplementation
@@ -101,18 +101,14 @@ val appVolumePatch = bytecodePatch(
 
         // Register each player when it is created, since the app may never call setVolume itself.
         // More than one player can be alive at the same time, such as when crossfading.
+        // addInstructions (not addInstruction) compiles with the method's parameters, so p0 resolves.
         exoPlayerImplClass.methods.filter { it.name == "<init>" }.forEach { constructor ->
-            constructor.instructions
-                .withIndex()
-                .filter { (_, instruction) -> instruction.opcode == Opcode.RETURN_VOID }
-                .map { (index, _) -> index }
-                .reversed()
-                .forEach { index ->
-                    constructor.addInstruction(
-                        index,
-                        "invoke-static { p0 }, $EXTENSION_CLASS->registerPlayer(Ljava/lang/Object;)V"
-                    )
-                }
+            constructor.findInstructionIndicesReversedOrThrow(Opcode.RETURN_VOID).forEach { index ->
+                constructor.addInstructions(
+                    index,
+                    "invoke-static { p0 }, $EXTENSION_CLASS->registerPlayer(Ljava/lang/Object;)V"
+                )
+            }
         }
 
         // Let the extension re-send the requested volume when the slider changes.
