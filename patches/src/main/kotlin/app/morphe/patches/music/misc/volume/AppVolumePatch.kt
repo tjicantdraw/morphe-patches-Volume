@@ -18,6 +18,7 @@ import app.morphe.patches.music.shared.Constants.COMPATIBILITY_YOUTUBE_MUSIC
 import app.morphe.patches.music.video.information.musicVideoInformationPatch
 import app.morphe.patches.music.video.information.musicVideoTimeHook
 import app.morphe.patches.shared.misc.settings.preference.NonInteractivePreference
+import app.morphe.patches.shared.misc.settings.preference.SwitchPreference
 import app.morphe.patches.shared.misc.settings.preference.noTitleUnsortedPreferenceCategory
 import app.morphe.util.findInstructionIndicesReversedOrThrow
 import com.android.tools.smali.dexlib2.AccessFlags
@@ -39,7 +40,7 @@ private const val EVENT_VOLUME_CHANGED = 22
 @Suppress("unused")
 val appVolumePatch = bytecodePatch(
     name = "App volume",
-    description = "Adds a volume slider for YouTube Music that is independent of the device volume.",
+    description = "Adds a volume slider for YouTube Music that is independent of the device volume. Long-press play/pause to open it from the player.",
 ) {
     dependsOn(
         sharedExtensionPatch,
@@ -57,7 +58,8 @@ val appVolumePatch = bytecodePatch(
                     key = "morphe_music_app_volume",
                     tag = "app.morphe.extension.shared.settings.preference.SeekBarPreference",
                     selectable = true
-                )
+                ),
+                SwitchPreference("morphe_music_app_volume_long_press")
             )
         )
 
