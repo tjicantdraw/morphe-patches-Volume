@@ -1128,6 +1128,12 @@ Settings → Playback (or Autoplay) → Autoplay next video"</string>
     <!-- layout.player.buttons.muteVideoButtonPatch -->
     <string name="morphe_mute_video_button_title">Show Mute button</string>
 
+    <!-- video.volume.appVolumePatch -->
+    <string name="morphe_app_volume_title">App volume</string>
+    <string name="morphe_app_volume_summary">Volume of videos, independent of the device volume</string>
+    <string name="morphe_app_volume_long_press_title">Long-press Mute button for volume</string>
+    <string name="morphe_app_volume_long_press_summary">Long-press the Mute button in the player to open a volume slider</string>
+
     <!-- layout.player.overlay.customPlayerOverlayOpacityPatch -->
     <string name="morphe_player_overlay_opacity_title">Player overlay opacity</string>
     <string name="morphe_player_overlay_opacity_summary">Adjust the transparency level (0 is transparent, 100 is opaque)</string>
