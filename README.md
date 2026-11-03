@@ -35,9 +35,9 @@ All modifications made by Morphe, along with their dates, can be found in the Gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v2.0.0](https://github.com/MorpheApp/morphe-patches/releases/tag/v2.0.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;194 patches total
+> **[v1.0.0](https://github.com/tjicantdraw/morphe-patches-Volume/releases/tag/v1.0.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;196 patches total
 <details>
-<summary>📦 YouTube&nbsp;&nbsp;•&nbsp;&nbsp;109 patches</summary>
+<summary>📦 YouTube&nbsp;&nbsp;•&nbsp;&nbsp;110 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -51,6 +51,7 @@ All modifications made by Morphe, along with their dates, can be found in the Gi
 | [Add to queue](#add-to-queue) | Adds a video queue to the feed flyout menu, using either the Morphe queue or a native queue that uses YouTube's playlist interface. |  |
 | [Ambient mode](#ambient-mode) | Forces Ambient mode on and adds options to bypass power saving restrictions for Ambient mode and disable it entirely or in fullscreen. |  |
 | [App refresh rate](#app-refresh-rate) | Adds an option to change the app refresh rate. |  |
+| [App volume](#app-volume) | Adds a volume slider for videos that is independent of the device volume. Long-press the Mute button in the player to open it. |  |
 | [Ask flyout menu](#ask-flyout-menu) | Adds a video menu entry that opens Ask for the video and summarizes the video. This patch works with YouTube 21.16.256 and newer. |  |
 | [Bypass image region restrictions](#bypass-image-region-restrictions) | Adds an option to use a different host for user avatar and channel images and can fix missing images that are blocked in some countries. |  |
 | [Bypass link redirects](#bypass-link-redirects) | Adds an option to bypass redirects and open the original link directly. |  |
@@ -160,7 +161,7 @@ All modifications made by Morphe, along with their dates, can be found in the Gi
 </details>
 
 <details>
-<summary>📦 YouTube Music&nbsp;&nbsp;•&nbsp;&nbsp;49 patches</summary>
+<summary>📦 YouTube Music&nbsp;&nbsp;•&nbsp;&nbsp;50 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -172,6 +173,7 @@ All modifications made by Morphe, along with their dates, can be found in the Gi
 |----------|----------------|-----------|
 | [Android Auto](#android-auto) | Bypasses certificate checks and restores YouTube Music Home recommendations, Library collections, and podcasts in Android Auto. |  |
 | [App refresh rate](#app-refresh-rate) | Adds an option to change the app refresh rate. |  |
+| [App volume](#app-volume) | Adds a volume slider for YouTube Music that is independent of the device volume. Long-press play/pause to open it from the player. |  |
 | [Change header](#change-header) | Adds an option to change the header logo in the top left corner of the app. | • Custom header logo |
 | [Change miniplayer color](#change-miniplayer-color) | Adds an option to change the miniplayer background color to match the fullscreen player. |  |
 | [Change start page](#change-start-page) | Adds an option to set which page the app opens in instead of the homepage. |  |
