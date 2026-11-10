@@ -1,0 +1,79 @@
+name: Apply inbox patches and build
+
+# Upload a .patch file to the top folder of the repository from the GitHub website.
+# This workflow applies it, commits the result, removes the patch file,
+# and builds the patch bundle (.mpp), attached to the run as an artifact.
+#
+# It can also be started by hand from the Actions tab to just rebuild.
+
+on:
+  push:
+    paths:
+      - "*.patch"
+      - "inbox/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+
+concurrency:
+  group: apply-and-build
+  cancel-in-progress: false
+
+jobs:
+  apply-and-build:
+    name: Apply and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Apply patches from inbox
+        run: |
+          shopt -s nullglob
+          patches=(*.patch inbox/*.patch inbox/*.diff)
+          if [ ${#patches[@]} -eq 0 ]; then
+            echo "No patch files found, building as is."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for patch in "${patches[@]}"; do
+            echo "::group::Applying $patch"
+            if ! git apply --3way --whitespace=nowarn "$patch"; then
+              echo "::error::Could not apply $patch. Send the log above to Claude."
+              exit 1
+            fi
+            echo "::endgroup::"
+          done
+
+          git rm -q --ignore-unmatch -- "${patches[@]}"
+          git add -A
+          git commit -m "Apply inbox patches: ${patches[*]##*/} [skip ci]"
+          git push
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Cache Gradle
+        uses: burrunan/gradle-cache-action@v3
+
+      # buildAndroid adds DEX to the jar in place, so it runs as the only build task.
+      - name: Build Android bundle
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :patches:buildAndroid --no-daemon
+
+      - name: Upload patch bundle
+        uses: actions/upload-artifact@v7
+        with:
+          archive: false
+          path: patches/build/libs
