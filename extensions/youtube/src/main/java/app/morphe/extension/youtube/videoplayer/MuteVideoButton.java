@@ -17,6 +17,7 @@ import java.lang.ref.WeakReference;
 import app.morphe.extension.shared.Logger;
 import app.morphe.extension.shared.Utils;
 import app.morphe.extension.youtube.patches.LegacyPlayerControlsPatch;
+import app.morphe.extension.youtube.patches.AppVolumePatch;
 import app.morphe.extension.youtube.patches.PlayerVolumePatch;
 import app.morphe.extension.youtube.settings.Settings;
 
@@ -42,7 +43,7 @@ public class MuteVideoButton {
                     controlsView,
                     getIconName(),
                     view -> toggleMute(),
-                    null
+                    AppVolumePatch::onLongClick
             ));
         } catch (Exception ex) {
             Logger.printException(() -> "initializeButton failure", ex);
@@ -65,7 +66,7 @@ public class MuteVideoButton {
                     getIconName(),
                     Settings.MUTE_VIDEO_BUTTON,
                     view -> toggleMute(),
-                    null
+                    AppVolumePatch::onLongClick
             );
         } catch (Exception ex) {
             Logger.printException(() -> "initializeLegacyButton failure", ex);

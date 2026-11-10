@@ -17,8 +17,8 @@ import app.morphe.extension.shared.Utils;
 /**
  * Multiplies the YouTube ExoPlayer audio sink volume.
  * <p>
- * Ducking and muting are kept as separate channels so the features using them
- * never overwrite each other.
+ * Ducking, muting and the app volume slider are kept as separate channels so the
+ * features using them never overwrite each other.
  */
 @SuppressWarnings("unused")
 public final class PlayerVolumePatch {
@@ -39,7 +39,14 @@ public final class PlayerVolumePatch {
     }
 
     private static float effectiveMultiplier() {
-        return muted ? 0f : duckMultiplier;
+        return muted ? 0f : duckMultiplier * AppVolumePatch.getGain();
+    }
+
+    /**
+     * Re-applies the volume after the app volume slider changed. Called from the main thread.
+     */
+    public static void onAppVolumeChanged() {
+        applyMultiplier();
     }
 
     /**
